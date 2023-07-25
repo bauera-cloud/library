@@ -70,10 +70,18 @@ Book.prototype.info = function () {
 
 
 function addBookToLibrary() {
-
+    const form = document.querySelector('#add_book');
+    const title = document.querySelector('#title');
+    const author = document.querySelector('#author');
+    const read = document.querySelector('input[type="radio"]');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        console.log(title, author, read)
+    })
 }
 
 displayLibrary()
+addBookToLibrary()
 
 
 
