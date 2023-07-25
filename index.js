@@ -3,19 +3,20 @@ let myLibrary = [
         title: "The Dark Forest",
         author: "Liu Cixin",
         cover: 'assets/images/the_dark_forest.jpg',
-        // isRead: true
+        read: true
     },
     {
         title: "Death's end",
         author: "Liu Cixin",
-        cover: 'assets/images/deaths_end.jpg'
+        cover: 'assets/images/deaths_end.jpg',
+        read: false
     },
 ];
 
 
 function displayLibrary() {
     myLibrary.forEach((libraryBook) => {
-        let body = document.querySelector('body');
+        let library = document.querySelector('#library');
         let book = document.createElement('div');
         book.setAttribute('class', 'book');
 
@@ -26,32 +27,41 @@ function displayLibrary() {
 
         let description = document.createElement('div');
         description.setAttribute('class', 'description');
-        let title = document.createElement('p');
+        let title = document.createElement('div');
         title.setAttribute('class', 'title');
         title.textContent = libraryBook.title;
-        let br = document.createElement('br');
+        let author_read = document.createElement('div');
+        author_read.setAttribute('class', 'author_read');
         let author = document.createElement('span');
         author.setAttribute('class', 'author');
         author.textContent = libraryBook.author;
+        let checkMark = document.createElement('span');
+        checkMark.setAttribute('class', 'material-symbols-outlined read-checkmark');
+        checkMark.textContent = 'check';
 
-        body.appendChild(book);
+        if (!libraryBook.read) {
+            checkMark.style.visibility = 'hidden'
+        }
+
+        library.appendChild(book);
 
         book.appendChild(cover);
         cover.appendChild(image);
 
         book.appendChild(description);
         description.appendChild(title);
-        title.appendChild(br);
-        title.appendChild(author);
+        description.append(author_read);
+        author_read.appendChild(author);
+        author_read.appendChild(checkMark);
     })
 
 }
 
-function Book(title, author, cover, pages, isRead) {
+function Book(title, author, cover, read) {
     this.title = title
     this.author = author
     this.cover = cover
-    // this.isRead = isRead === "Yes" ? "read" : "not read yet"
+    // this.read = read === "Yes" ? "read" : "not read yet"
 }
 
 Book.prototype.info = function () {
@@ -63,7 +73,7 @@ function addBookToLibrary() {
 
 }
 
-// displayLibrary()
+displayLibrary()
 
 
 

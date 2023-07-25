@@ -1,6 +1,6 @@
-h1 {
-    color: red;
-}
+/* #library {
+    display: grid;
+} */
 
 .book {
     display: inline-block;
@@ -10,7 +10,6 @@ h1 {
     margin: 25px;
     padding: 10px 10px 0 10px;
     vertical-align: top;
-    /* transition: height 1s; */
 }
 
 .cover {
@@ -24,18 +23,17 @@ h1 {
     height: 100%;
 }
 
-.book p {
+.title {
     margin-top: 12px;
     font-size: 20px;
 }
 
-.book .author {
+.author_read {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     font-size: 15px;
-}
-
-.book .read-checkmark {
-    position: relative;
-    left: 140px;
 }
 
 .material-symbols-outlined {
