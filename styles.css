@@ -7,12 +7,14 @@
 }
 
 .book {
+    position: relative;
     width: 230px;
     height: 390px;
     box-shadow: 0 0 20px #aaa;
-    padding: 10px 10px 0 10px;
+    padding: 10px 10px 0px 10px;
     vertical-align: top;
 }
+
 
 .cover {
     border: 2px solid gray;
@@ -44,4 +46,12 @@
         'wght' 400,
         'GRAD' 0,
         'opsz' 40
+}
+
+#x {
+    color: red;
+    position: absolute;
+    left: -7px;
+    top: -5px;
+    transform: scale(.5);
 }
