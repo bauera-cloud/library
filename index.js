@@ -25,7 +25,9 @@ function createBook(libraryBook) {
     let book = document.createElement('div');
     book.setAttribute('class', 'book');
 
-    let closeX = document.createElement('span');
+    let closeForm = document.createElement('form');
+    closeForm.setAttribute('action', '');
+    let closeX = document.createElement('button');
     closeX.setAttribute('class', 'material-symbols-outlined');
     closeX.setAttribute('id', 'x');
     closeX.textContent = 'close';
@@ -55,7 +57,8 @@ function createBook(libraryBook) {
 
     library.appendChild(book);
 
-    book.appendChild(closeX);
+    book.appendChild(closeForm);
+    closeForm.appendChild(closeX)
 
     book.appendChild(cover);
     cover.appendChild(image);
@@ -68,7 +71,6 @@ function createBook(libraryBook) {
 }
 
 function Book(title, author, cover, read) {
-    console.log(read)
     this.title = title
     this.author = author
     this.cover = cover
@@ -91,18 +93,31 @@ function addBookToLibrary() {
         let newBook = new Book(title.value, author.value, cover.value, read.value)
         myLibrary.push(newBook)
         createBook(newBook)
+        console.log(myLibrary)
     })
 }
 
-function deleteBookFromLibrary() {
-    const closeX = document.querySelector('#x');
-    closeX.addEventListener('click', (e) => {
-
-    })
-}
+// function deleteBookFromLibrary() {
+//     const closeXNodeList = document.querySelectorAll('#x');
+//     closeXNodeList.forEach((closeX) => {
+//         closeX.addEventListener('click', (e) => {
+//             console.log(closeX)
+//             //delete book from library array
+//             let bookTitle = closeX.nextElementSibling.nextElementSibling.firstChild.textContent;
+//             myLibrary.forEach((book, i) => {
+//                 if (book.title === bookTitle) {
+//                     myLibrary.splice(i, 1)
+//                 }
+//             })
+//             //delete book from html
+//             closeX.parentElement.remove()
+//         })
+//     })
+// }
 
 addBookToLibrary()
 displayLibrary()
+// deleteBookFromLibrary()
 
 
 
