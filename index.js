@@ -1,4 +1,21 @@
+function Book(title, author, cover, read) {
+    this.title = title
+    this.author = author
+    this.cover = cover
+    this.read = read === 'yes' ? true : false
+}
+
+Book.prototype.info = function () {
+    return `${this.title}, ${this.author}`
+}
+
 let myLibrary = [
+    {
+        title: "Three Body Problem",
+        author: "Liu Cixin",
+        cover: 'assets/images/three_body_problem.jpg',
+        read: true
+    },
     {
         title: "The Dark Forest",
         author: "Liu Cixin",
@@ -9,24 +26,42 @@ let myLibrary = [
         title: "Death's End",
         author: "Liu Cixin",
         cover: 'assets/images/deaths_end.jpg',
-        read: false
+        read: true
     }
 ];
 
+function library() {
+    displayLibrary(myLibrary)
+    let userSelectsDeleteBook = document.querySelectorAll('#deleteBookForm');
+    const userSelectsNewBook = document.querySelector('#add_book');
+    userSelectsNewBook.addEventListener('submit', addBook);
+    userSelectsDeleteBook.forEach((book) => {
+        book.addEventListener('submit', deleteBook);
+    });
+}
 
-function displayLibrary() {
-    myLibrary.forEach((libraryBook) => {
-        createBook(libraryBook)
+function displayLibrary(libraryArr) {
+    libraryArr.forEach((libraryBook, index) => {
+        addBookToPage(libraryBook, index)
     })
 }
 
-function createBook(libraryBook) {
+function addBook(e) {
+    let newBook = createBook(e)
+    let newBookIndex = myLibrary.length;
+    addBookToPage(newBook, newBookIndex)
+    addBookToLibrary(newBook)
+}
+
+function addBookToPage(libraryBook, index) {
     let library = document.querySelector('#library');
     let book = document.createElement('div');
     book.setAttribute('class', 'book');
+    book.setAttribute('data-attribute', index)
 
     let closeForm = document.createElement('form');
     closeForm.setAttribute('action', '');
+    closeForm.setAttribute('id', 'deleteBookForm');
     let closeX = document.createElement('button');
     closeX.setAttribute('class', 'material-symbols-outlined');
     closeX.setAttribute('id', 'x');
@@ -70,55 +105,42 @@ function createBook(libraryBook) {
     author_read.appendChild(checkMark);
 }
 
-function Book(title, author, cover, read) {
-    this.title = title
-    this.author = author
-    this.cover = cover
-    this.read = read === 'yes' ? true : false
+function addBookToLibrary(newBook) {
+    myLibrary.push(newBook)
 }
 
-Book.prototype.info = function () {
-    return `${this.title}, ${this.author}`
-}
-
-
-function addBookToLibrary() {
-    const form = document.querySelector('#add_book');
+function createBook(e) {
     const title = document.querySelector('#title');
     const author = document.querySelector('#author');
     const cover = document.querySelector('#cover');
-    form.addEventListener('submit', (e) => {
-        const read = document.querySelector('input[name="read"]:checked');
-        e.preventDefault();
-        let newBook = new Book(title.value, author.value, cover.value, read.value)
-        myLibrary.push(newBook)
-        createBook(newBook)
-        console.log(myLibrary)
-    })
+    const read = document.querySelector('input[name="read"]:checked');
+    e.preventDefault();
+    let newBook = new Book(title.value, author.value, cover.value, read.value)
+    return newBook
 }
 
-// function deleteBookFromLibrary() {
-//     const closeXNodeList = document.querySelectorAll('#x');
-//     closeXNodeList.forEach((closeX) => {
-//         closeX.addEventListener('click', (e) => {
-//             console.log(closeX)
-//             //delete book from library array
-//             let bookTitle = closeX.nextElementSibling.nextElementSibling.firstChild.textContent;
-//             myLibrary.forEach((book, i) => {
-//                 if (book.title === bookTitle) {
-//                     myLibrary.splice(i, 1)
-//                 }
-//             })
-//             //delete book from html
-//             closeX.parentElement.remove()
-//         })
-//     })
-// }
+function deleteBook(event) {
+    event.preventDefault()
+    let book = event.target.parentNode;
+    let bookIndex = book.dataset.attribute;
+    deleteBookFromPage(book)
+    deleteBookFromLibrary(bookIndex)
+    console.log(myLibrary)
+}
 
-addBookToLibrary()
-displayLibrary()
-// deleteBookFromLibrary()
+function deleteBookFromPage(book) {
+    book.remove()
+    changeBookAttributeNumbers()
+}
 
+function deleteBookFromLibrary(bookIndex) {
+    myLibrary.splice(bookIndex, 1)
+}
 
+function changeBookAttributeNumbers() {
+    //select remaining books. Change dataset.attribute to the index in the remaining books array.
+    let libraryBooks = document.querySelectorAll('.book');
+    libraryBooks.forEach((book, i) => book.dataset.attribute = i);
+}
 
-
+library()
