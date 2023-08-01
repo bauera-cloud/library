@@ -77,13 +77,26 @@ function addBookToPage(libraryBook, index) {
     let author = document.createElement('span');
     author.setAttribute('class', 'author');
     author.textContent = libraryBook.author;
-    let checkMark = document.createElement('span');
-    checkMark.setAttribute('class', 'material-symbols-outlined read-checkmark');
-    checkMark.textContent = 'check';
+    let toggleRead = document.createElement('span');
+    toggleRead.setAttribute('class', 'material-symbols-outlined read-checkmark');
+    toggleRead.textContent = 'toggle_off';
 
-    if (!libraryBook.read) {
-        checkMark.style.visibility = 'hidden'
+    if (libraryBook.read === true) {
+        toggleRead.textContent = 'toggle_on';
+        toggleRead.style.color = 'green';
+    } else if (libraryBook.read == false) {
+        toggleRead.textContent = 'toggle_off';
+        toggleRead.style.color = 'black';
     }
+
+    toggleRead.addEventListener('click', (e) => {
+        toggleReadFn(e, libraryBook, toggleRead)
+    })
+
+    //if I want to add a "READ" diagonal white line one the cover later
+    // if (!libraryBook.read) {
+    //     white_read_line.style.visibility = 'hidden'
+    // }
 
     library.appendChild(book);
 
@@ -97,7 +110,7 @@ function addBookToPage(libraryBook, index) {
     description.appendChild(title);
     description.append(author_read);
     author_read.appendChild(author);
-    author_read.appendChild(checkMark);
+    author_read.appendChild(toggleRead);
 
     //allows the ability to delete the newly created book.
     closeForm.addEventListener('submit', deleteBook)
@@ -123,7 +136,6 @@ function deleteBook(event) {
     let bookIndex = book.dataset.attribute;
     deleteBookFromPage(book)
     deleteBookFromLibrary(bookIndex)
-    console.log(myLibrary)
 }
 
 function deleteBookFromPage(book) {
@@ -139,6 +151,19 @@ function changeBookAttributeNumbers() {
     //select remaining books. Change dataset.attribute to the index in the remaining books array.
     let libraryBooks = document.querySelectorAll('.book');
     libraryBooks.forEach((book, i) => book.dataset.attribute = i);
+}
+
+function toggleReadFn(event, libraryBook, toggleRead) {
+    console.log(event)
+    if (libraryBook.read) {
+        libraryBook.read = false;
+        toggleRead.textContent = 'toggle_off';
+        toggleRead.style.color = 'black';
+    } else if (!libraryBook.read) {
+        libraryBook.read = true;
+        toggleRead.textContent = 'toggle_on';
+        toggleRead.style.color = 'green';
+    }
 }
 
 displayLibraryInDB(myLibrary)
