@@ -1,3 +1,6 @@
+const userSelectsNewBook = document.querySelector('#add_book');
+userSelectsNewBook.addEventListener('submit', addBook);
+
 function Book(title, author, cover, read) {
     this.title = title
     this.author = author
@@ -9,6 +12,7 @@ Book.prototype.info = function () {
     return `${this.title}, ${this.author}`
 }
 
+//pretend database
 let myLibrary = [
     {
         title: "Three Body Problem",
@@ -30,17 +34,7 @@ let myLibrary = [
     }
 ];
 
-function library() {
-    displayLibrary(myLibrary)
-    let userSelectsDeleteBook = document.querySelectorAll('#deleteBookForm');
-    const userSelectsNewBook = document.querySelector('#add_book');
-    userSelectsNewBook.addEventListener('submit', addBook);
-    userSelectsDeleteBook.forEach((book) => {
-        book.addEventListener('submit', deleteBook);
-    });
-}
-
-function displayLibrary(libraryArr) {
+function displayLibraryInDB(libraryArr) {
     libraryArr.forEach((libraryBook, index) => {
         addBookToPage(libraryBook, index)
     })
@@ -62,6 +56,7 @@ function addBookToPage(libraryBook, index) {
     let closeForm = document.createElement('form');
     closeForm.setAttribute('action', '');
     closeForm.setAttribute('id', 'deleteBookForm');
+    closeForm.setAttribute('class', 'deleteForm');
     let closeX = document.createElement('button');
     closeX.setAttribute('class', 'material-symbols-outlined');
     closeX.setAttribute('id', 'x');
@@ -103,6 +98,9 @@ function addBookToPage(libraryBook, index) {
     description.append(author_read);
     author_read.appendChild(author);
     author_read.appendChild(checkMark);
+
+    //allows the ability to delete the newly created book.
+    closeForm.addEventListener('submit', deleteBook)
 }
 
 function addBookToLibrary(newBook) {
@@ -143,4 +141,4 @@ function changeBookAttributeNumbers() {
     libraryBooks.forEach((book, i) => book.dataset.attribute = i);
 }
 
-library()
+displayLibraryInDB(myLibrary)
